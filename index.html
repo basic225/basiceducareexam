@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Education Care - English Exam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+    body { background: #f0f4f8; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .card { background: #ffffff; width: 100%; max-width: 650px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 32px; }
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h2 { color: #1e3a8a; font-size: 24px; font-weight: 700; }
+    .header p { color: #64748b; font-size: 13.5px; margin-top: 4px; }
+    
+    .quote-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; border-radius: 6px; margin-bottom: 24px; color: #1e40af; font-size: 13.5px; line-height: 1.5; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: 0.2s; }
+    .form-control:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    
+    .btn { width: 100%; background: #2563eb; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn:hover { background: #1d4ed8; }
+    .btn:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    #exam-section, #thankyou-section { display: none; }
+    .sticky-timer { position: sticky; top: 10px; background: #fee2e2; color: #991b1b; padding: 12px 16px; border-radius: 8px; font-weight: 700; text-align: center; margin-bottom: 20px; font-size: 16px; border: 1px solid #fecaca; z-index: 10; }
+    
+    .question-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 18px; }
+    .question-text { font-size: 14.5px; font-weight: 600; color: #1e293b; margin-bottom: 12px; }
+    .option-label { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #475569; margin-bottom: 8px; cursor: pointer; padding: 8px 10px; border-radius: 6px; border: 1px solid transparent; transition: 0.2s; }
+    .option-label:hover { background: #e2e8f0; }
+    .option-label input { cursor: pointer; transform: scale(1.1); }
+    
+    .thankyou-box { text-align: center; padding: 40px 10px; }
+    .success-icon { font-size: 52px; color: #16a34a; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- ১. লগইন / তথ্য দেওয়ার ইন্টারফেস -->
+  <div id="login-section">
+    <div class="header">
+      <h2>Basic Education Care</h2>
+      <p>Online English Assessment Exam</p>
+    </div>
+
+    <div class="quote-box">
+      📚 <em>"সততা ও নিয়ম মেনে পরীক্ষা দেওয়া একজন আদর্শ শিক্ষার্থীর গুণ।"</em><br>
+      মনোযোগ দিয়ে প্রশ্নগুলো পড়ো এবং নির্ধারিত ১৫ মিনিটের মধ্যে পরীক্ষা সম্পন্ন করো। শুভকামনা!
+    </div>
+
+    <form id="studentForm">
+      <div class="form-group">
+        <label>Student's Full Name *</label>
+        <input type="text" id="name" class="form-control" placeholder="আপনার সম্পূর্ণ নাম লিখুন" required>
+      </div>
+
+      <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="tel" id="phone" class="form-control" placeholder="017xxxxxxxx" required>
+      </div>
+
+      <div class="form-group">
+        <label>Basic Education Care এর শিক্ষার্থী কি না? *</label>
+        <select id="isBecStudent" class="form-control" required>
+          <option value="">নির্বাচন করুন</option>
+          <option value="Yes">Yes (হ্যাঁ)</option>
+          <option value="No">No (না)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Class / শ্রেণি *</label>
+        <input type="text" id="studentClass" class="form-control" placeholder="যেমন: Class 5, Class 8" required>
+      </div>
+
+      <button type="submit" class="btn">Start Exam (15 Minutes)</button>
+    </form>
+  </div>
+
+  <!-- ২. পরীক্ষার ইন্টারফেস -->
+  <div id="exam-section">
+    <div class="sticky-timer">⏳ Time Left: <span id="timer">15:00</span></div>
+
+    <form id="examForm">
+      <!-- ১০টি MCQ প্রশ্ন -->
+      <div class="question-block">
+        <div class="question-text">1. Choose the correct spelling:</div>
+        <label class="option-label"><input type="radio" name="q1" value="A" required> A) Recieve</label>
+        <label class="option-label"><input type="radio" name="q1" value="B"> B) Receive</label>
+        <label class="option-label"><input type="radio" name="q1" value="C"> C) Receve</label>
+        <label class="option-label"><input type="radio" name="q1" value="D"> D) Reseive</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">2. What is the synonym of the word 'Courageous'?</div>
+        <label class="option-label"><input type="radio" name="q2" value="A" required> A) Fearful</label>
+        <label class="option-label"><input type="radio" name="q2" value="B"> B) Weak</label>
+        <label class="option-label"><input type="radio" name="q2" value="C"> C) Brave</label>
+        <label class="option-label"><input type="radio" name="q2" value="D"> D) Silent</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">3. He has been living in Dhaka _____ 2018.</div>
+        <label class="option-label"><input type="radio" name="q3" value="A" required> A) for</label>
+        <label class="option-label"><input type="radio" name="q3" value="B"> B) since</label>
+        <label class="option-label"><input type="radio" name="q3" value="C"> C) from</label>
+        <label class="option-label"><input type="radio" name="q3" value="D"> D) in</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">4. Identify the noun in the sentence: "Knowledge is power."</div>
+        <label class="option-label"><input type="radio" name="q4" value="A" required> A) Knowledge</label>
+        <label class="option-label"><input type="radio" name="q4" value="B"> B) is</label>
+        <label class="option-label"><input type="radio" name="q4" value="C"> C) very</label>
+        <label class="option-label"><input type="radio" name="q4" value="D"> D) strong</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">5. What is the antonym of the word 'Ancient'?</div>
+        <label class="option-label"><input type="radio" name="q5" value="A" required> A) Old</label>
+        <label class="option-label"><input type="radio" name="q5" value="B"> B) Modern</label>
+        <label class="option-label"><input type="radio" name="q5" value="C"> C) Past</label>
+        <label class="option-label"><input type="radio" name="q5" value="D"> D) Historic</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">6. Slow and steady _____ the race.</div>
+        <label class="option-label"><input type="radio" name="q6" value="A" required> A) win</label>
+        <label class="option-label"><input type="radio" name="q6" value="B"> B) winning</label>
+        <label class="option-label"><input type="radio" name="q6" value="C"> C) wins</label>
+        <label class="option-label"><input type="radio" name="q6" value="D"> D) won</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">7. The plural form of 'Child' is:</div>
+        <label class="option-label"><input type="radio" name="q7" value="A" required> A) Childs</label>
+        <label class="option-label"><input type="radio" name="q7" value="B"> B) Children</label>
+        <label class="option-label"><input type="radio" name="q7" value="C"> C) Childrens</label>
+        <label class="option-label"><input type="radio" name="q7" value="D"> D) Childes</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">8. Which sentence is in the Past Continuous Tense?</div>
+        <label class="option-label"><input type="radio" name="q8" value="A" required> A) I went to school.</label>
+        <label class="option-label"><input type="radio" name="q8" value="B"> B) I have read the book.</label>
+        <label class="option-label"><input type="radio" name="q8" value="C"> C) They were playing football.</label>
+        <label class="option-label"><input type="radio" name="q8" value="D"> D) She will sing.</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">9. Look _____ the whiteboard carefully.</div>
+        <label class="option-label"><input type="radio" name="q9" value="A" required> A) at</label>
+        <label class="option-label"><input type="radio" name="q9" value="B"> B) on</label>
+        <label class="option-label"><input type="radio" name="q9" value="C"> C) in</label>
+        <label class="option-label"><input type="radio" name="q9" value="D"> D) into</label>
+      </div>
+
+      <div class="question-block">
+        <div class="question-text">10. "Honesty is the best policy." Here 'Honesty' is an example of:</div>
+        <label class="option-label"><input type="radio" name="q10" value="A" required> A) Proper Noun</label>
+        <label class="option-label"><input type="radio" name="q10" value="B"> B) Abstract Noun</label>
+        <label class="option-label"><input type="radio" name="q10" value="C"> C) Collective Noun</label>
+        <label class="option-label"><input type="radio" name="q10" value="D"> D) Material Noun</label>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn">Submit Exam</button>
+    </form>
+  </div>
+
+  <!-- ৩. থ্যাঙ্ক ইউ মেসেজ -->
+  <div id="thankyou-section" class="thankyou-box">
+    <div class="success-icon">✓</div>
+    <h2 style="color:#1e293b; margin-bottom: 8px;">পরীক্ষা সম্পন্ন হয়েছে!</h2>
+    <p style="color:#64748b; font-size: 14px; line-height: 1.6;">
+      তোমার উত্তরপত্র সফলভাবে জমা নেওয়া হয়েছে। কর্তৃপক্ষ ফলাফল যাচাই করে পরবর্তীতে তা প্রকাশ করবে।
+    </p>
+  </div>
+</div>
+
+<script>
+  var studentData = {};
+  var timerInterval;
+  var timeLeft = 15 * 60; // 15 মিনিট
+
+  document.getElementById('studentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    studentData.name = document.getElementById('name').value;
+    studentData.phone = document.getElementById('phone').value;
+    studentData.isBecStudent = document.getElementById('isBecStudent').value;
+    studentData.studentClass = document.getElementById('studentClass').value;
+
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('exam-section').style.display = 'block';
+    startTimer();
+  });
+
+  function startTimer() {
+    timerInterval = setInterval(function() {
+      var minutes = Math.floor(timeLeft / 60);
+      var seconds = timeLeft % 60;
+      document.getElementById('timer').innerText = 
+        (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        processSubmission();
+      }
+      timeLeft--;
+    }, 1000);
+  }
+
+  document.getElementById('examForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearInterval(timerInterval);
+    processSubmission();
+  });
+
+  function processSubmission() {
+    document.getElementById('submitBtn').innerText = "Submitting...";
+    document.getElementById('submitBtn').disabled = true;
+
+    var answers = {};
+    for (var i = 1; i <= 10; i++) {
+      var selected = document.querySelector('input[name="q' + i + '"]:checked');
+      answers['q' + i] = selected ? selected.value : "";
+    }
+    studentData.answers = answers;
+
+    google.script.run.withSuccessHandler(function(response) {
+      document.getElementById('exam-section').style.display = 'none';
+      document.getElementById('thankyou-section').style.display = 'block';
+    }).submitExam(studentData);
+  }
+</script>
+
+</body>
+</html>
